@@ -1,0 +1,29 @@
+#! /bin/sh
+# /etc/init.d/ndcleanroom-equipment-monitor
+#
+
+NAME=ndcleanroom-equipment-monitor
+APP=/srv/www/ndcleanroom/equipment-monitor/run.js
+FOREVER=/usr/bin/forever
+LOG=/var/log/ndcleanroom-equipment-monitor.log
+
+case "$1" in
+  start)
+    echo "Starting $NAME"
+    IP=127.0.0.1 NODE_PORT=8080 REDIS_PORT=6379 REDIS_PASSWORD=Qg6WnujG6N $FOREVER --minUptime 5000 --spinSleepTime 2000 -a -l $LOG start $APP
+    ;;
+  stop)
+    echo "Stopping script $NAME"
+    $FOREVER stop $APP
+    ;;
+  list)
+    echo "List"
+    $FOREVER list
+    ;;
+  *)
+    echo "Usage: /etc/init.d/ndcleanroom-equipment-monitor {start|stop|list}"
+    exit 1
+    ;;
+esac
+
+exit 0

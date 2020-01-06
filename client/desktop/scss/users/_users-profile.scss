@@ -1,0 +1,60 @@
+.users-profile {
+
+	padding-top: 15px;
+	padding: 5px;
+
+	.photo-container {
+		width: 20%;
+		height: 250px;
+		padding-bottom: 10px;
+
+		.photo {
+			width: 100%;
+			height: 100%;
+
+			background-size: cover;
+			background-position: center;
+			background-repeat: no-repeat;
+		}
+	}
+
+	.info-container {
+
+		float: left;
+        width: 100%;
+        padding-bottom: 10px;
+
+        .name, .email, .location-status, .last-activity {
+            display: block;
+            width: 100%;
+        }
+
+		.name {
+            font-size: 1.2em;
+            font-weight: normal;
+            text-transform: capitalize;
+		}
+
+		.location-status {
+			font-size: 0.8em;
+            font-style: italic;
+		}
+	}
+
+	.input-container {
+
+		.inputheader, .input-days, .hours, .equipment, .events, .input-header {
+			display: block;
+			float: left;
+            width: 100%;
+		}
+
+		.input-header, .user-header, .equipment-header {
+			font-size: 1.2em;
+            font-weight: normal;
+            text-transform: capitalize;
+            width: 100%;
+            display: block;
+		}
+	}
+}

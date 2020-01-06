@@ -1,0 +1,66 @@
+header {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 2;
+
+	width: 100%;
+	height: $header-height;
+	padding: 0px $header-horizontal-padding;
+
+	background-color: $header-background-color;
+	@include box-shadow(inset 0px -1px 1px -1px black);
+	@include user-select(none);
+
+	a.button {
+		display: inline-block;
+		color: $header-button-color;
+		height: $header-height;
+		line-height: $header-height;
+		position: relative;
+		z-index: 2;
+
+		.icon {
+			font-size: 2em;
+			vertical-align: middle;
+		}
+
+		.text {
+			font-size:1.2em;
+			font-weight: normal;
+			vertical-align: middle;
+			margin: 0px $header-horizontal-padding/2;
+		}
+
+		&.right {
+			float: right;
+		}
+	}
+
+	.title {
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 1;
+
+		width: 100%;
+		height: $header-height;
+		margin: 0;
+
+		color: $header-title-color;
+
+		line-height: $header-height + 3px;
+		font-weight: normal;
+		font-size: 1.2em;
+		text-align: center;
+	}
+
+	&.standalone {
+		height: $header-height + 20px;
+		padding-top: 20px;
+
+		.title {
+			top: 20px;
+		}
+	}
+}

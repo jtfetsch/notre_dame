@@ -1,0 +1,43 @@
+$ionicons-font-path: "../fonts/ionicons";
+@import "../../bower_components/ionicons/scss/ionicons";
+
+$OpenSansPath: "../fonts/open-sans";
+@import "../../bower_components/open-sans-fontface/open-sans";
+
+@import "../../bower_components/normalize-scss/normalize";
+
+@import "variables";
+@import "mixins";
+
+@import "shared/header";
+@import "shared/footer";
+@import "shared/content";
+
+@import "list/list";
+@import "list/list-item";
+
+@import "detail/detail";
+
+* {
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-webkit-tap-highlight-color: transparent;
+	-webkit-touch-callout: none;
+}
+
+
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
+html {
+	font-family: "Helvetica Neue", "Open Sans";
+	font-weight: lighter;
+	height: 100%;
+}
+
+body {
+	height: calc(100% + 1px);
+	height: -webkit-calc(100% + 1px);
+}

@@ -1,0 +1,15 @@
+{
+  "name": "equipment-monitor",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "then-redis": "^0.3.12",
+    "underscore": "^1.6.0"
+  }
+}

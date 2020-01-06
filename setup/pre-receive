@@ -1,0 +1,13 @@
+#!/bin/sh
+echo " - Stopping services ..."
+
+echo " --- Stopping server"
+sudo /usr/sbin/service ndcleanroom-server stop
+
+echo " --- Stopping users-monitor"
+sudo /usr/sbin/service ndcleanroom-users-monitor stop
+
+echo " --- Stopping equipment-monitor"
+sudo /usr/sbin/service ndcleanroom-equipment-monitor stop
+
+echo " - Done."

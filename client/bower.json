@@ -1,0 +1,29 @@
+{
+  "name": "app-server",
+  "version": "0.0.0",
+  "authors": [
+    "Luke Westby <lwestby@nd.edu>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "requirejs": "~2.1.11",
+    "marionette": "~1.7.1",
+    "backbone-amd": "~1.1.0",
+    "underscore-amd": "~1.5.2",
+    "underscore.string": "~2.3.3",
+    "open-sans-fontface": "~1.0.4",
+    "ionicons": "~1.4.1",
+    "normalize-scss": "~3.0.0",
+    "socket.io-client": "~0.9.16",
+    "jquery.transit": "~0.9.9",
+    "jquery-mobile-events": "*"
+  }
+}

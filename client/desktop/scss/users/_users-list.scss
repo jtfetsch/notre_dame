@@ -1,0 +1,14 @@
+.container.users {
+    
+    .search-input-container {
+        padding: $content-padding/2;
+        
+        input[type="search"] {
+            width: 100%
+        }
+    }
+    
+    width: 100%;
+    padding: $content-padding;
+    @include clearfix;
+}

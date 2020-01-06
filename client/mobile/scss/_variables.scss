@@ -1,0 +1,37 @@
+$light-gray: #F7F7F7;
+$medium-gray: rgb(220, 220, 220);
+$dark-gray: #808080;
+$blue: rgb(0, 122, 255);
+
+// header
+$header-background-color: $light-gray;
+$header-button-color: $blue;
+$header-title-color: black;
+$header-height: 44px;
+$header-horizontal-padding: 8px;
+
+
+// footer
+$footer-background-color: $light-gray;
+$footer-button-active-color: $blue;
+$footer-button-inactive-color: $dark-gray;
+$footer-height: 44px;
+
+// content
+$content-horizontal-padding: 16px;
+$content-background-color: $medium-gray;
+
+// lists
+$list-item-height-standard: 44px;
+$list-item-background-color: white;
+$list-item-link-icon-color: $dark-gray;
+
+// detail
+$detail-info-vertical-padding: 20px;
+$detail-table-row-height: 44px;
+$detail-table-row-background-color: white;
+$detail-table-row-label-width: 45%;
+$detail-table-row-label-color: $dark-gray;
+$detail-table-row-icon-up-color: #22FF33;
+$detail-table-row-icon-problems-color: #F7F733;
+$detail-table-row-icon-shutdowns-color: #FF3333;

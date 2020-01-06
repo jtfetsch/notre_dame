@@ -1,0 +1,24 @@
+This is a list of the usernames and passwords needed to access various parts of the system.
+
+Access to the virtual machine:
+Hostname: cro.nano.nd.edu
+Username: lwestby
+Password: EeORZ8JAbo
+Port: 22
+
+Access to email that receives cardswipe information:
+Username: cro
+Password: c1899RO
+Host: mail.esc.nd.edu
+Port: 993
+
+Access to Coral database:
+Hostname: anemone.nano.nd.edu
+Port: 5432
+Database name: coral
+Username: display
+Password: gOiRiSh
+
+Access to Redis:
+Password: Qg6WnujG6N
+Port: 6379

@@ -1,0 +1,5 @@
+Each client updates itself based on data sent over sockets from the server. The client works to dynamically update content without the need to refresh any pages by using this data.
+
+For each page (Current, Users, and Equipment), the client waits for an update from the server. When this update happens, the client responds accordingly, changing what is currently being displayed to reflect the new data. This includes adding and removing users and equipment from the "current" list, changing how users and equipment are displayed in their respective lists based on whether or not they're being used, and automatically scrolling through lists when in fullscreen mode.
+
+In addition to these passive updates, the client also makes requests for certain information via the API when looking at the user profile page.  This information mainly concerns hours worked and equipment used in a specified range, and these requests are made when the user inputs a range on the profile page. The responses to these requests cause the profile to update accordingly, showing user and equipment events for the specified range of dates.

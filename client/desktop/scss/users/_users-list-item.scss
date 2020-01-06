@@ -1,0 +1,69 @@
+.users-list-item {
+    
+    $users-list-item-border-width: $content-padding/4;
+    
+    float: left;
+    position: relative;
+    
+    width: $users-list-item-width;
+    height: 3 * $users-list-item-width/2;
+    margin: $content-padding / 2;
+    
+    border-left: $users-list-item-border-width solid $users-list-item-inactive-border-color;
+    box-shadow: 2px 2px 12px -1px rgba(0, 0, 0, 0.5);
+    background-color: $users-list-item-background-color;
+    
+    &.active {
+        border: $users-list-item-border-width solid $users-list-item-active-border-color;
+        
+        &:before {
+            content: "";
+            position: absolute;
+            z-index: 2;
+            top: 0;
+            left: 0;
+            border-left: $content-padding solid $users-list-item-active-border-color;
+            border-bottom: $content-padding solid transparent;
+        }
+    }
+    
+    .photo-container {
+        width: 100%;
+        height: $users-list-item-width;
+        overflow: hidden;
+        position: relative;
+
+        .photo {
+            width: 100%;
+            height: 100%;
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+    }
+    
+    .info-container {
+        float: left;
+        width: 100%;
+        padding: $users-list-item-border-width * 2;
+        .name, .email, .location-status, .last-activity {
+            display: block;
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .name {
+            font-size: 1.2em;
+            font-weight: normal;
+            text-transform: capitalize;
+        }
+        
+        
+        .location-status {
+            font-size: 0.8em;
+            font-style: italic;
+        }
+    }
+}

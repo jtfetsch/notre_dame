@@ -1,0 +1,21 @@
+{
+  "name": "ndcleanroom",
+  "version": "0.0.1",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "ejs": "~0.8.5",
+    "express": "~3.4.8",
+    "mobile-detect": "~0.1.0",
+    "socket.io": "~0.9.16",
+    "then-redis": "~0.3.12",
+    "underscore": "^1.6.0",
+    "mongoose": "*",
+    "q": "*"
+  }
+}

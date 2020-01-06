@@ -1,0 +1,7 @@
+.active-equip-module{
+  overflow-y: auto;
+  padding: $content-padding/4;
+  padding-right: $content-padding/2;
+
+  height: calc(100% - 42px);
+}

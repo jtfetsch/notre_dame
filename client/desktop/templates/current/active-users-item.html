@@ -1,0 +1,16 @@
+<div class="photo-container">
+    <div class="photo"></div>
+</div>
+
+<div class="info-container">
+    <span class="name"><%= firstName %> <%= lastName %></span>
+    <span class="email"><%= netid %>@nd.edu</span>
+    <span class="last-activity">
+        <% var lastDate = new Date(lastActivity); %>
+        <% if(lastDate.valueOf() == 0) { %>
+           No recent data
+        <% } else { %>
+           Entered: <%= lastDate.toDateString() %> at <%= lastDate.toLocaleTimeString() %>
+        <% } %>
+    </span>
+</div>

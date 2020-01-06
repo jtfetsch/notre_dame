@@ -1,0 +1,25 @@
+<div class="photo-container">
+    <div class="photo"></div>
+</div>
+
+<div class="info-container">
+    <span class="name"><%= firstName %> <%= lastName %></span>
+    <span class="email"><%= netid %>@nd.edu</span>
+    <span class="last-activity">
+        <% var lastDate = new Date(lastActivity); %>
+        <% if(lastDate.valueOf() == 0) { %>
+           No recent data
+        <% } else { %>
+           <%= lastDate.toString().replace(' GMT-0400 (Eastern Daylight Time)','') %>
+        <% } %>
+    </span>
+    <span class="location-status">
+        <% if(isInRoom === true) { %>
+            Currently in cleanroom
+        <% } else if(isInRoom === false) { %>
+            Not in cleanroom
+        <% } else { %>
+            Location data unavailable
+        <% } %>
+    </span>
+</div>

@@ -1,0 +1,33 @@
+<div class="icon-container">
+    <span class="icon custom-equipment"></span>
+</div>
+
+<div class="info-container">
+    <span class="name"><%= name %></span>
+
+    <% if(description === null) { %>
+        <span class="description unavailable">No description listed</span>
+    <% } else { %>
+        <span class="description"><%= description %></span>
+    <% } %>
+
+    <span class="usage-status">
+        <% if (running === true) { %>
+            Currently in use
+        <% } else if (running === false) { %>
+            Not in use
+        <% } else { %>
+            Usage data unavailable
+        <% } %>
+    </span>
+</div>
+
+<div class="status-container">
+    <% if(shutdowns === true) { %>
+        <span class="icon ion-ios7-close red"></span>
+    <% } else if (problems === true) { %>
+        <span class="icon ion-alert-circled yellow"></span>
+    <% } else { %>
+        <span class="icon ion-ios7-arrow-thin-up green"></span>
+    <% } %>
+</div>

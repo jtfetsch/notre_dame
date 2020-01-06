@@ -1,0 +1,26 @@
+Home Controller:
+
+Resource:								Description:
+'/'										returns standard desktop view
+'/mobile'								returns condensed mobile website
+
+
+Users Controller:
+
+Resource:								Description:
+'/api/v1/users'							returns a list of all users, including name, netid, badge number, whether they are currently in the cleanroom, and the last time they entered or exited the room
+'/api/v1/users-in room'					returns a list of all users with the above fields, but only returns the users currently in the cleanroom
+'/api/v1/users/:user'					returns the above fields for the user with the badge number requested
+'/api/v1/users/:user/user-events'		returns a list of all times the user with the badge number requested entered or exited the cleanroom in the last number of days (default 7)
+'/api/v1/users/:user/equipment-events'	returns a list of the equipment name and status that the user with the badge number requested used in the last number of days (default 7) 
+'/api/v1/users/:user/hours'				returns the number of hours that the user with the badge number requested in the last number of days (default 7)
+'/api/v1/users/:user/most-used-equip'	returns the name of the equipment that the user with the badge number requested used most frequently in the last number of days (default 7)
+
+
+Equipment Controller:
+
+Resource:								Description:
+'/api/v1/equipment'						returns a list of all equipment, including equipment id and name, in the room
+'/api/v1/equipment/events'				returns a list of all equipment events, including the badge of the user of the equipment, the name of the equipment, the time the equipment event took place, and the status of the equipment at the time in the last 7 days
+'/api/v1/equipment/:name/hours'			returns the number of hours that the equipment with the name requested was used in the last 7 days
+'/api/v1/equipment/:name/events'		returns a list of equipment events that involved the equipment with the name requested in the last 7 days

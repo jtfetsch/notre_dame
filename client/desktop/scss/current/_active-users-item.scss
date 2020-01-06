@@ -1,0 +1,47 @@
+.active-user-item{
+
+	position: relative;
+	width: 100%;
+  white-space: nowrap;
+  margin: $content-padding 0px;
+  padding: $content-padding/2;
+  background-color: white;
+
+	box-shadow: 2px 2px 12px -1px rgba(0, 0, 0, 0.5);
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+	.photo-container {
+    display: inline-block;
+    width: 10%;
+
+    .photo {
+        height: 80px;
+        width: 100%;
+        background-size: cover;
+        background-position: center;
+    }
+
+	}
+
+	.info-container{
+      display: inline-block;
+   		width: 90%;
+
+  		.name, .email, .last-activity {
+        	display: block;
+        	width: 100%;
+        	overflow: hidden;
+       		text-overflow: ellipsis;
+        	white-space: nowrap;
+    	}
+
+    	.name{
+    		font-size: 1.2em;
+        	font-weight: normal;
+        	text-transform: capitalize;
+    	}
+  	}
+}

@@ -1,0 +1,5 @@
+The users-monitor is a service that checks for user activity (swiping in and out of the cleanroom), and then passes any activity along to the server via Redis.
+
+When the users-monitor service is started, it queries the Coral database for all users marked as 'active' (that is, they still are cleared to enter the cleanroom) and then sends this data to the server via a redis users-update message. The server then wipes all of the user data from its Mongo database, and replaces it with the new data from the users-monitor service. Thus, if new users are added to the Coral database (or existing users are removed), restarting the users-monitor service is all that is needed to get them to show up on the website.
+
+The users-monitor service connects to an email account set up within esc (see the logins.txt file for details). The lockshop sends an email to that address whenever someone swipes into or out of the cleanroom. The users-monitor service retrieves these emails, and parses the following information from them: direction (entering/leaving), timestamp of swipe, and badge number. These are then published to the redis channel 'users-monitor-events.'

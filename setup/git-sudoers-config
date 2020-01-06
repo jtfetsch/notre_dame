@@ -1,0 +1,1 @@
+git ALL=(ALL) NOPASSWD: /usr/sbin/service ndcleanroom-server start, /usr/sbin/service ndcleanroom-server stop, /usr/sbin/service ndcleanroom-users-monitor start, /usr/sbin/service ndcleanroom-users-monitor stop, /usr/sbin/service ndcleanroom-equipment-monitor start, /usr/sbin/service ndcleanroom-equipment-monitor stop

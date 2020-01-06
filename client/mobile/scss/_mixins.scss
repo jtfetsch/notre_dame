@@ -1,0 +1,9 @@
+@mixin box-shadow($value) {
+	box-shadow: $value;
+	-webkit-box-shadow: $value;
+}
+
+@mixin user-select($value) {
+	-webkit-user-select: $value;
+	user-select: $value;
+}

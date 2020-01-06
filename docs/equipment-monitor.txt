@@ -1,0 +1,5 @@
+The equipment-monitor is a service that checks for changes in equipment status, as indicated by the Coral database. Activity is sent via Redis to the server.
+
+On start-up, the equipment-monitor queries Coral for all of its equipment. It sends this initial snapshot to the server, which dumps its previous database of equipment and replaces it with this new data. Thus, if new equipment is added to the database (or equipment is removed), the website will reflect the changes after a restart of the equipment-monitor.
+
+The monitor polls the Coral database every 10 seconds. It takes the new data and compares it to the data it has stored in memory. If an equipment's enabled, problems, or shutdowns field changes, an event is sent via redis to the server containing the equipment's name, running status, problems status, shutdowns status, user badge associated with the event (if there is one), and the timestamp of the event. The new information then replaces the old in memory, and another poll happens 10 seconds later.

@@ -1,0 +1,27 @@
+<div class="inner-container">
+	<div class="photo-container">
+		<div class="photo"></div>
+	</div>
+	<div class="info-container">
+		<div class="table-row">
+			<span class="label">Name</span>
+			<span class="value"><%= firstName %> <%= lastName %></span>
+		</div>
+		<div class="table-row">
+			<span class="label">Email</span>
+			<span class="value"><%= netid %>@nd.edu</span>
+		</div>
+		<div class="table-row">
+			<span class="label">Last Activity</span>
+			<span class="value"><%= (new Date(lastActivity)).toDateString() %></span>
+		</div>
+		<div class="table-row">
+			<span class="label">Hours This Week</span>
+			<span class="value hours">No data available</span>
+		</div>
+		<div class="table-row">
+			<span class="label">Favorite Device</span>
+			<span class="value equipment">No data available</span>
+		</div>
+	</div>
+</div>

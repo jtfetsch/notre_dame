@@ -1,0 +1,23 @@
+.list-item {
+	display: block;
+
+	width: 100%;
+	height: $list-item-height-standard;
+	line-height: $list-item-height-standard;
+	padding: 0px $content-horizontal-padding;
+
+	background-color: $list-item-background-color;
+	@include box-shadow(inset 0px -1px 1px -1px black);
+}
+
+a.list-item {
+	text-decoration: none;
+
+	&:after {
+		content: '\f154';
+		float: right;
+		font-size: 1.5em;
+		color: $list-item-link-icon-color;
+		font-family: 'Ionicons';
+	}
+}

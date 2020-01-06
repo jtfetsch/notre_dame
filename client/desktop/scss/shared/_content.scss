@@ -1,0 +1,10 @@
+.content {
+    width: 100%;
+    height: calc(100% - #{$header-height});
+    position: fixed;
+    overflow-x: hidden;
+    overflow-y: auto;
+    top: $header-height;
+    left: 0;
+    z-index: 2;
+}

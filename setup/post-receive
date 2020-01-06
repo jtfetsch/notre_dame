@@ -1,0 +1,73 @@
+#!/bin/sh
+echo " - Stopping services ..."
+
+echo " --- Stopping server"
+sudo /usr/sbin/service ndcleanroom-server stop
+
+echo " --- Stopping users-monitor"
+sudo /usr/sbin/service ndcleanroom-users-monitor stop
+
+echo " --- Stopping equipment-monitor"
+sudo /usr/sbin/service ndcleanroom-equipment-monitor stop
+
+echo " - Done."
+lwestby@cro:/home/git/ndcleanroom.git/hooks$ cat post-receive
+#!/bin/sh
+# 
+## store the arguments given to the script
+read oldrev newrev refname
+
+## Where to store the log information about the updates
+LOGFILE=./post-receive.log
+
+# The deployed directory (the running site)
+DEPLOY_DIRECTORY=/srv/www/ndcleanroom
+
+##  Record the fact that the push has been received
+echo -e "Received Push Request at $( date +%F )" >> $LOGFILE
+echo " - Old SHA: $oldrev New SHA: $newrev Branch Name: $refname" >> $LOGFILE
+
+## Update the deployed copy
+echo "Starting Deploy" >> $LOGFILE
+
+echo " - Starting code update ..."
+GIT_WORK_TREE="$DEPLOY_DIRECTORY" git checkout -f
+echo " - Done."
+
+## Build the site using npm ---------------------------------------------------
+
+echo " - Starting build ..."
+
+echo " --- Building client"
+(cd $DEPLOY_DIRECTORY/client && npm install)
+
+echo " --- Building server"
+(cd $DEPLOY_DIRECTORY/server && npm install)
+
+echo " --- Building coral"
+(cd $DEPLOY_DIRECTORY/coral && npm install)
+
+echo " --- Building users-monitor"
+(cd $DEPLOY_DIRECTORY/users-monitor && npm install)
+
+echo " --- Building equipment-monitor"
+(cd $DEPLOY_DIRECTORY/equipment-monitor && npm install)
+
+echo " - Done."
+
+## Start the services ---------------------------------------------------------
+
+echo " - Starting services ..."
+
+echo " --- Starting server"
+sudo /usr/sbin/service ndcleanroom-server start
+
+echo " --- Starting users-monitor"
+sudo /usr/sbin/service ndcleanroom-users-monitor start
+
+echo " --- Starting equipment-monitor"
+sudo /usr/sbin/service ndcleanroom-equipment-monitor start
+
+echo " - Done."
+
+echo "Finished Deploy" >> $LOGFILE

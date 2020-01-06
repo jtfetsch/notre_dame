@@ -1,0 +1,29 @@
+$light-gray: #FCFCFC;
+$medium-gray: darken($light-gray, 30%);
+$blue: #007EE5;
+
+$header-height: 64px;
+$header-logo-width: 25%;
+$header-admin-button-width: 10%;
+$header-border-color: $medium-gray;
+$header-text-color: $blue;
+$header-background-color: $light-gray;
+
+$transition-duration: 0.2s;
+$content-padding: 16px;
+
+$current-full-screen-button-border-color: $medium-gray;
+$current-full-screen-button-background-color: $light-gray;
+$current-full-screen-scroll-timer-color: $blue;
+
+$users-list-item-width: 245px;
+$users-list-item-background-color: $light-gray;
+$users-list-item-active-border-color: $blue;
+$users-list-item-inactive-border-color: $medium-gray;
+
+$equipment-list-item-width: 310px;
+$equipment-list-item-background-color: $light-gray;
+$equipment-list-item-active-border-color: $blue;
+$equipment-list-item-inactive-border-color: $medium-gray;
+
+$bottom-logo-height: 76px;

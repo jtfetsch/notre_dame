@@ -1,0 +1,5 @@
+The Coral database is maintained by Mike Young, and stores equipment status and user information.
+
+Our Coral interface uses SQL to poll the database periodically to obtain a complete copy of the current user and equipment information, which is compared to the data in the equipment- and users-monitor.  Any recent changes are sent out as events via redis to the server.
+
+We query three tables: rscmgr.member, which contains fields for Firstname, Lastname, netid, and badge number, eqmgr.equipment, which contains fields for equipment name, description, location, as well as fields for whether the equipment is in use, has any problems, or is shutdown, and eqmgr.current_eq, which only contains equipment currently in use.  Eqmgr.current_eq contains fields for equipment name, time when the equipment was most recently put in use, and creator, which is the netid of the person using that equipment.

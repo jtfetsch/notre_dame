@@ -1,0 +1,122 @@
+.container.detail {
+	height: 100%;
+	width: 100%;
+	overflow-y: auto;
+	-webkit-transform: translateZ(0);
+	background-image: url(http://4.bp.blogspot.com/-PTiqd51Lwf8/Tz0Ly0JjbwI/AAAAAAAAAls/Y-Z2fWRvEcU/s1600/Notre+Dame+Visit+029.jpg);
+	background-size: 140%;
+	background-position: center -75px;
+	background-repeat: no-repeat;
+	-webkit-overflow-scrolling: touch;
+	position: absolute;
+
+	&:not(.dragging) {
+		transition: background-size 0.4s;
+	}
+
+	&.no-background {
+		background-image: none;
+	}
+
+	.inner-container {
+		width: 100%;
+		min-height: calc(100% + 2px);
+		z-index: 2;
+		position: relative;
+
+		.photo-container {
+			width: 100%;
+			height: 200px;
+			line-height: 200px;
+			text-align: center;
+			background-image: -webkit-linear-gradient(#{rgba($content-background-color, 0)} 40%, #{rgba($content-background-color, 0.5)} 60%, #{$content-background-color});
+
+			.photo {
+				width: 150px;
+				height: 150px;
+				position: relative;
+				background-size: cover;
+				background-position: center;
+				vertical-align: middle;
+				display: inline-block;
+				border-radius: 75px;
+				border: 1px solid gray;
+				background-repeat: no-repeat;
+
+				&.loading {
+					background-image: url("../img/loader.gif");
+					background-color: white;
+					background-size: 70%;
+				}
+			}
+		}
+
+		.info-container {
+			position: absolute;
+			width: 100%;
+			min-height: calc(100% - 200px);
+			background-color: $content-background-color;
+			padding: $detail-info-vertical-padding 0px;
+			overflow-x: hidden;
+
+			.table-row {
+				&:not(:last-child) {
+					@include box-shadow(#{inset 16px -1px 1px -1px #{$detail-table-row-background-color}, inset 0px -1px 1px -1px black});
+				}
+
+				background-color: $detail-table-row-background-color;
+				width: 100%;
+				position: relative;
+				height: $detail-table-row-height;
+				line-height: $detail-table-row-height;
+				padding: 0px $content-horizontal-padding;
+				white-space: nowrap;
+				overflow-x: hidden;
+				text-overflow: ellipsis;
+
+				.label {
+					display: inline-block;
+					width: $detail-table-row-label-width;
+					white-space: nowrap;
+					overflow-x: hidden;
+					vertical-align: top;
+					text-overflow: ellipsis;
+					color: $detail-table-row-label-color;
+				}
+
+				.value {
+					display: inline-block;
+					width: calc(100% - #{$detail-table-row-label-width});
+					width: -webkit-calc(100% - #{$detail-table-row-label-width});
+					vertical-align: top;
+					position: relative;
+					height: $detail-table-row-height;
+					line-height: $detail-table-row-height;
+					overflow-x: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+
+					.icon {
+						display: inline-block;
+						height: $detail-table-row-height;
+						line-height: $detail-table-row-height;
+						vertical-align: top;
+						font-size: 1.3em;
+
+						&.green {
+							color: $detail-table-row-icon-up-color;
+						}
+
+						&.yellow {
+							color: $detail-table-row-icon-problems-color;
+						}
+
+						&.red {
+							color: $detail-table-row-icon-shutdowns-color;
+						}
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,5 @@
+The server listens for events that the users-monitor and the equipment-monitor send it, and contains the database where all relevant information is stored.
+
+The server listens to four redis channels, two containing events, and two containing updates.  When an event is received, it is added to the MongoDB database and stored.  After this data is stored, the updated data is forwarded to all clients via sockets - this allows live updating on the client side without having to refresh the page.
+
+When an update is received, the server will wipe the current database, and fill it with fresh information from Coral, ensuring all information is constantly up to date.

@@ -1,0 +1,56 @@
+$ionicons-font-path: "../fonts/ionicons";
+@import "../../bower_components/ionicons/scss/ionicons";
+
+$OpenSansPath: "../fonts/open-sans";
+@import "../../bower_components/open-sans-fontface/open-sans";
+
+@import "../../bower_components/normalize-scss/normalize";
+
+@import "variables";
+@import "mixins";
+
+html {
+    font-family: "Open Sans";
+    font-weight: lighter;
+}
+
+html, body {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+* {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+h1, h2, h3, h4, h5 {
+    margin: 0;
+    font-weight: inherit;
+}
+
+@import "shared/header";
+@import "shared/content";
+
+@import "users/users-list";
+@import "users/users-list-item";
+@import "users/users-profile";
+
+@import "equipment/equipment-list";
+@import "equipment/equipment-list-item";
+
+@import "current/current-layout";
+@import "current/active-equip-item";
+@import "current/active-equip-module";
+@import "current/active-users-item";
+@import "current/active-users-module";

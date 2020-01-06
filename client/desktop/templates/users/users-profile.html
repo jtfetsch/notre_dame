@@ -1,0 +1,72 @@
+<div class="users-profile">
+    <div class="photo-container">
+        <div class="photo"></div>
+    </div>
+
+    <div class="info-container">
+        <span class="name"><%= firstName %> <%= lastName %></span>
+        <span class="email"><%= netid %>@nd.edu</span>
+        <span class="last-activity">
+            <% var lastDate = new Date(lastActivity); %>
+            <% if(lastDate.valueOf() == 0) { %>
+               No recent data
+            <% } else { %>
+               <%= lastDate.toDateString() %>
+            <% } %>
+        </span>
+        <span class="location-status">
+            <% if(isInRoom === true) { %>
+                Currently in cleanroom
+            <% } else if(isInRoom === false) { %>
+                Not in cleanroom
+            <% } else { %>
+                Location data unavailable
+            <% } %>
+        </span>
+    </div>
+    <div class="input-container">
+        <div class="input-header">
+            Recent Information
+        </div>
+
+        <form>
+            <div class="input-days">
+                <label>Enter Days:</label>
+                <input type="text" name="daysWorked" id="daysWorked" />
+            </div>
+
+            <div class="hours">
+                <label>Hours Worked:</label>
+                <label id="hoursWorked"></label>
+            </div>
+
+            <div class="equipment">
+                <label>Most Used Equipment:</label>
+                <label id="mostUsedEquipment"></label>
+            </div>
+
+            <div class="events">
+                <label class="user-header">User Events:</label>
+                <ul id="userEventsList" >
+                    <% _.each(UserEvents, function (UserEvent) { %>
+                        <% if ( UserEvent.entering == false) { %>
+                            <li>Exited -
+                        <% } else { %>
+                            <li>Entered -
+                        <% } %>
+                        <% var time = new Date(UserEvent.timestamp.toString()); %>
+                       <%= time.toDateString() + ", " + time.toLocaleTimeString() %></li>          
+                    <% }); %>
+                </ul>
+                <label class="equipment-header">Equipment Events:</label>
+                <label id="equipmentEvents"></label>
+                <ul id="equipmentEventsList" >
+                    <% _.each(EquipmentEvents, function (EquipmentEvent) { %>
+                        <% var stamp = new Date(EquipmentEvent.timestamp.toString()); %>
+                        <li><%= EquipmentEvent.name.toString() %> - <%= stamp.toDateString() + ", " + stamp.toLocaleTimeString() %></li>  
+                    <% }); %>
+                </ul>    
+            </div>    
+        </form> 
+    </div>
+</div>

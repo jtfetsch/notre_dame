@@ -1,0 +1,27 @@
+<div class="inner-container">
+	<div class="photo-container">
+		<div class="photo"></div>
+	</div>
+	<div class="info-container">
+		<div class="table-row">
+			<span class="label">Name</span>
+			<span class="value"><%= name %></span>
+		</div>
+		<div class="table-row">
+			<span class="label">Description</span>
+			<span class="value"><%= description %></span>
+		</div>
+		<div class="table-row">
+			<span class="label">Status</span>
+			<span class="value">
+				<% if(shutdowns) { %>
+					<span class="icon ion-close-circled red"></span>
+				<% } else if(problems) { %>
+					<span class="icon ion-alert-circled yellow"></span>
+				<% } else { %>
+					<span class="icon ion-checkmark-circled green"></span>
+				<% } %>
+			</span>
+		</div>
+	</div>
+</div>

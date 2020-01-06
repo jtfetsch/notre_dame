@@ -1,0 +1,59 @@
+instructions on how to set it up
+
+1) Install node and npm
+	- We suggest adding the following to your apt-get sources list:
+		deb http://ftp.us.debian.org/debian wheezy-backports main
+	- Installing node using apt-get will also install npm
+
+2) Install forever
+	- forever is a node package for running arbitrary node scripts as services and will restart them in the event of a crash
+	$ npm install -g forever
+
+3) Install bower and grunt-cli
+	- bower is a client package manager
+	- grunt-cli is the binary for the grunt task runner
+	$ npm install -g bower && npm install -g grunt-cli
+
+4) Install and configure nginx
+	- We suggest adding the following to your apt-get sources list:
+		deb http://nginx.org/packages/debian wheezy nginx
+		deb-src http://nginx.org/packages/debian wheezy nginx
+	- Once nginx has been installed, use the script /setup/ndcleanroom.conf or some variation to configure the site and add the configuration file to /etc/nginx/conf.d/
+
+5) Create a directory in which to place the site's source code
+	- All of the provided setup scripts assume /srv/www/ndcleanroom/ is the location of the site, so creating this directory will be easiest for the remainder of the setup
+	- Grant recursive access to this folder by the www-data group
+
+6) Install git and add a git user
+	- We suggest setting the git user's shell to git-shell for security purposes
+	- Make sure to remember the password set for the git user
+	- Add the git user to the www-data group
+
+7) Grant sudoer access to the git user for the shell commands to turn the site's services on and off
+	- Add the file /setup/git-sudoers-config to /etc/sudoers.d/, and avoid editting the actual sudoers file
+
+8) Initialize the git deployment process
+	- As the git user, change to /home/git/ and create a directory ndcleanroom.git/
+	- Change to this directory and init a bare repository (git init --bare)
+	- Add the files /setup/pre-receive and /setup/post-receive to the hooks/ directory in ndcleanroom.git/
+	- These hooks stop the services, move the source code from the git repo directory to /srv/www/ndcleanroom/ and build the source, and then restart the services
+
+9) Insert the service scripts in /setup/ into /etc/init.d/
+	- /setup/ndcleanroom-server runs the server
+	- /setup/ndcleanroom-users-monitor runs the email-based users monitor
+	- /setup/ndcleanroom-equipment-monitor runs the Coral based equipment monitor
+
+10) Download the Redis source, build, install and configure it
+	- The instructions on the Redis site <http://redis.io> should be more than enough to accomplish this
+	- Follow the instructions to add an authentication password to Redis, and be sure to update this password
+	in ALL of the scripts added to /etc/init.d/
+
+11) Install mongoDB using apt-get
+
+12) Ensure that nginx, mongoDB (mongod) and Redis (redis-server) services are running
+
+13) Push the source code to the repository at the address git@cro.nano.nd.edu:ndcleanroom.git
+	- Pay attention to the output of the git push process for any indications of problems
+
+14) Open cro.nano.nd.edu in your browser and ensure the site opens
+	- Any problems with any of the services will be written to /var/log/ndcleanroom-<service name>

@@ -1,0 +1,18 @@
+.content {
+	position: absolute;
+	top: $header-height;
+
+	left: 0;
+	z-index: 1;
+
+	height: -webkit-calc(100% - #{$header-height} - #{$footer-height} + 1px);
+	height: calc(100% - #{$header-height} - #{$footer-height} + 1px);
+	width: 100%;
+	overflow: hidden;
+
+	background-color: $content-background-color;
+}
+
+header.standalone ~ .content {
+	padding-top: $header-height + 20px;
+}

@@ -1,0 +1,39 @@
+footer {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	z-index: 2;
+
+	width: 100%;
+	height: $footer-height;
+
+	background-color: $footer-background-color;
+	@include box-shadow(inset 0px 1px 1px -1px black);
+
+	.icon {
+		width: 50%;
+		float: left;
+		height: $footer-height;
+		font-size: 2em;
+		text-align: center;
+		line-height: $footer-height;
+		color: $footer-button-inactive-color;
+		background-position: center;
+		background-size: 1.5em;
+		background-repeat: no-repeat;
+		text-decoration: none;
+		-webkit-touch-callout: none;
+
+		&.active {
+			color: $footer-button-active-color;
+		}
+
+		&.icon-custom-equipment {
+			background-image: url('../img/icon-custom-equipment.png');
+
+			&.active {
+				background-image: url('../img/icon-custom-equipment-active.png');
+			}
+		}
+	}
+}

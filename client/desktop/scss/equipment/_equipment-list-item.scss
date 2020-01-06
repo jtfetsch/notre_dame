@@ -1,0 +1,115 @@
+.equipment-list-item {
+
+    $equipment-list-item-border-width: $content-padding/4;
+
+    float: left;
+    position: relative;
+
+    width: $equipment-list-item-width;
+    height: $equipment-list-item-width/3;
+    margin: $content-padding / 2;
+    padding: $content-padding;
+    padding-left: 0;
+
+    border-left: $equipment-list-item-border-width solid $equipment-list-item-inactive-border-color;
+    box-shadow: 2px 2px 12px -1px rgba(0, 0, 0, 0.5);
+    background-color: $equipment-list-item-background-color;
+
+    &.active {
+        border: $equipment-list-item-border-width solid $equipment-list-item-active-border-color;
+        padding: 3 * $content-padding/4;
+        padding-left: 0;
+
+        &:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-left: $content-padding solid $equipment-list-item-active-border-color;
+            border-bottom: $content-padding solid transparent;
+        }
+    }
+
+    .icon-container {
+        float: left;
+        width: 20%;
+        height: 100%;
+        line-height: calc(#{$equipment-list-item-width/3} - #{$content-padding * 2});
+
+        .icon {
+            display: block;
+            width: 100%;
+            height: 100%;
+            font-size: $equipment-list-item-width/6;
+
+            &.custom-equipment {
+                background-image: url("/dist/img/icon-custom-equipment.png");
+                background-position: center;
+                background-size: $equipment-list-item-width/4;
+            }
+        }
+    }
+
+    .info-container {
+        float: left;
+        width: 70%;
+        height: 100%;
+        overflow-x: hidden;
+
+        .name, .description, .usage-status {
+            display: block;
+            overflow-x: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .name {
+            font-size: 1.2em;
+            font-weight: normal;
+        }
+
+
+        .usage-status {
+            font-size: 0.8em;
+            font-style: italic;
+        }
+    }
+
+    .status-container {
+        float: left;
+        width: 10%;
+        height: 100%;
+        text-align: center;
+
+        .icon {
+            display: block;
+            width: 1.3em;
+            height: 1.3em;
+            font-size: 1.3em;
+            line-height: 1.3em;
+            background-position: center;
+            background-size: $equipment-list-item-width/4;
+
+            &.green {
+                font-size: 0.9em;
+                border-radius: 0.65em;
+                background-color: #00FF44;
+                color: white;
+                font-weight: bold;
+                -webkit-font-smoothing: antialiased;
+                display: inline-block;
+            }
+
+            &.red {
+                color: #FF3333;
+            }
+
+            &.yellow {
+                color: #F7F733
+            }
+
+        }
+    }
+
+
+}
