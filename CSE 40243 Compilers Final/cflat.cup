@@ -1,0 +1,239 @@
+import java.util.*;
+import java_cup.runtime.*;
+// Symbol table
+action code {:
+    StringTable strTable = new StringTable();
+    public static int errors=0;
+    int curr_lineno() {
+        return ((CFLexer) parser.getScanner()).curr_lineno(); 
+    }
+  public void report_error(String message, Object info) {
+    if (info instanceof String){
+	errors++; 
+      System.err.println("  "+ errors + "==> " + info + " "+ message + 
+					"\n       Parsing resumed...\n");
+    }
+    else {
+    	StringBuffer m = new StringBuffer("Error ");
+    	if (info instanceof java_cup.runtime.Symbol) 
+     	   m.append( "("+info.toString()+")" );     
+    	m.append(" : "+message);   
+    	System.err.println(m);
+    }
+  }
+:}
+init with {:
+:}
+
+
+/* terminals */
+terminal LPAREN, RPAREN, LBRACE, RBRACE, SEMI, COMMA;
+terminal ADD,  SUB, STAR, DIV;
+terminal NOT, AND, OR, EQ, NE, LT, LE, GT, GE, ASSIGN;
+terminal IF, ELSE, WHILE, RETURN;
+terminal PRINT;
+terminal CHAR, INT, STRING, BOOLEAN, VOID;
+terminal IDENTIFIER;
+terminal STRING_LITERAL, CHAR_LITERAL, INT_LITERAL, TRUE, FALSE;
+/* terminal STRUCT; */
+/* terminal LSQUARE, RSQUARE; */
+terminal ERROR;
+
+/* 
+allow for ERROR (illegal symbol)(?)
+error (syntax error from parser)
+  looks like mostly going to be near the leaves of the parse tree
+	| error SEMI {: RESULT = new reportError(curr_lineno(),(String)"edecl"); :}
+	or other similar form
+*/
+
+/* nonterminals */
+non terminal program, block, blockstmt;
+non terminal edecl, edecl_list;
+non terminal opt_decl_list, decl_list, decl, stmt, stmt_list, matched_stmt, unmatched_stmt;
+non terminal param, opt_param_list, param_list, opt_arg_list, arg_list;
+non terminal type_spec;
+non terminal expr, bool_expr, join_expr, equ_expr, rel_expr, add_expr, mul_expr, unary_expr, atomic_expr;
+non terminal name, name_expr, constant_expr;
+
+start with program;
+
+   program ::=  edecl_list:edl {: 
+                  Program p = new Program( (LinkedList<exDecl>) edl);
+                  RESULT = p;
+                :}
+               ;
+
+   edecl_list ::=  {: 
+                   RESULT = new LinkedList<exDecl>();
+                 :}                 
+                 | edecl_list:edl edecl:ed  {: 
+                   ((LinkedList<exDecl>) edl).addLast((exDecl) ed);
+                   RESULT = edl;
+                 :}
+		 | edecl_list:edl error edecl:e {: report_error(errors++ +": detected at line "+curr_lineno()+": external declaration error",e); :}
+		;
+
+      edecl ::= type_spec:t name_expr:ne SEMI {: RESULT = new exDecl(curr_lineno(),(idExpr)ne,(Type)t); :} 
+	  | type_spec:t name_expr:ne ASSIGN constant_expr:ce SEMI {: RESULT = new exDecl(curr_lineno(),(idExpr)ne,(Type)t,(constantExpr)ce); :}
+	  | type_spec:t name_expr:ne LPAREN opt_param_list:pl RPAREN block:cs {: funcType ft = new funcType((Type)t,(LinkedList<Param>)pl);
+									      RESULT = new exDecl(curr_lineno(),(idExpr)ne,(funcType)ft,(block)cs); :}
+	  | type_spec name_expr ASSIGN error SEMI {: System.err.println("Line "+curr_lineno()+"\nERROR: cannot make an external declaration with a nonconstant initializer"); :}
+	  ;
+
+block ::= LBRACE decl_list:dl stmt_list:sl RBRACE
+	     {: RESULT = new block((LinkedList<loDecl>)dl, (LinkedList<Stmt>)sl); :}
+	  ;
+blockstmt ::= LBRACE decl_list:dl stmt_list:sl RBRACE
+	     {: RESULT = new blockStmt((LinkedList<loDecl>)dl, (LinkedList<Stmt>)sl); :}
+	  ;
+
+  decl_list ::= {: RESULT = new LinkedList<loDecl>();
+                 :}                 
+                 | decl_list:dl decl:d  {: 
+                   ((LinkedList<loDecl>) dl).addLast((loDecl) d);
+                   RESULT = dl;       :}
+	  ;
+  
+  decl ::= type_spec:t name_expr:ne SEMI {: RESULT = new loDecl(curr_lineno(),(idExpr) ne,(Type) t); :} 
+	  | type_spec:t name_expr:ne ASSIGN expr:e SEMI {: RESULT = new loDecl(curr_lineno(),(idExpr)ne,(Type)t,(Expr)e); :}
+	  | error decl:d {: report_error(errors++ +": detected at line "+curr_lineno()+": declaration error",d);  :}
+	  ;
+
+  stmt_list ::= {: RESULT = new LinkedList<Stmt>();   :}
+	  | stmt_list:sl stmt:s
+	  {:    ((LinkedList<Stmt>) sl).addLast( (Stmt) s);
+                RESULT = (LinkedList<Stmt>) sl;  :} 
+	  ;
+
+  stmt ::= matched_stmt:ms {: RESULT = ms; :} 
+	| unmatched_stmt:us {: RESULT = us; :} 
+	;
+
+  matched_stmt ::= IF LPAREN expr:e RPAREN matched_stmt:s1 ELSE matched_stmt:s2 {: RESULT = new ifelseStmt(curr_lineno(),(Expr)e,(Stmt)s1,(Stmt)s2); :}
+      | expr:e SEMI {: RESULT = new exprStmt(curr_lineno(),(Expr)e); :}
+      | blockstmt:b {: RESULT = b; :}
+      | PRINT arg_list:al SEMI {: RESULT = new printStmt(curr_lineno(), (LinkedList<Expr>) al); :}
+      | WHILE LPAREN expr:e RPAREN matched_stmt:s {: RESULT = new whileStmt(curr_lineno(), (Expr) e, (Stmt) s); :}
+      | RETURN expr:e SEMI {: RESULT = new returnStmt(curr_lineno(), (Expr) e); :}
+      | RETURN SEMI {: RESULT = new returnStmt(curr_lineno()); :}
+      ;
+
+  unmatched_stmt ::= IF LPAREN expr:e RPAREN matched_stmt:s1 ELSE unmatched_stmt:s2 {: RESULT = new ifelseStmt(curr_lineno(),(Expr)e,(Stmt)s1,(Stmt)s2); :}
+      | IF LPAREN expr:e RPAREN stmt:s {: RESULT = new ifStmt(curr_lineno(), (Expr)e,(Stmt)s); :}
+      ;
+
+   expr ::= name_expr:ne ASSIGN expr:be {: 
+                RESULT = new assignExpr( curr_lineno(), (idExpr) ne, (Expr) be);
+                :}
+          | bool_expr:be {: 
+            RESULT = be;
+            :}
+	    ;
+
+   bool_expr ::=  bool_expr:be OR join_expr:je {: RESULT = new boolExpr(curr_lineno(), (Expr) be, (Expr) je); :}
+                | join_expr:je {: RESULT = je; :}
+                ;
+
+   join_expr ::=  join_expr:je AND equ_expr:ee {: RESULT = new joinExpr(curr_lineno(), (Expr) je, (Expr) ee); :}
+                | equ_expr:ee {: RESULT = ee; :}
+                ;
+
+   equ_expr ::=  equ_expr:ee EQ rel_expr:re {: RESULT = new equExpr( curr_lineno(), Expr.kind.EQ, (Expr) ee, (Expr) re);:}
+               | equ_expr:ee NE rel_expr:re {: RESULT = new equExpr( curr_lineno(), Expr.kind.NE, (Expr) ee, (Expr) re);:}
+               | rel_expr:re {: RESULT = re; :}
+               ;
+
+   rel_expr ::=  rel_expr:re LT add_expr:ae {: RESULT = new relExpr( curr_lineno(), Expr.kind.LT, (Expr) re, (Expr) ae);:}
+               | rel_expr:re LE add_expr:ae {: RESULT = new relExpr( curr_lineno(), Expr.kind.LE, (Expr) re, (Expr) ae);:}
+               | rel_expr:re GT add_expr:ae {: RESULT = new relExpr( curr_lineno(), Expr.kind.GT, (Expr) re, (Expr) ae);:}
+               | rel_expr:re GE add_expr:ae {: RESULT = new relExpr( curr_lineno(), Expr.kind.GE, (Expr) re, (Expr) ae);:}
+               | add_expr:ae {: 
+                  RESULT = ae;
+                 :}
+               ;
+
+   add_expr ::=  add_expr:ae ADD  mul_expr:me {: RESULT = new addExpr( curr_lineno(), Expr.kind.ADD, (Expr) ae, (Expr) me);:}
+               | add_expr:ae SUB  mul_expr:me {: RESULT = new addExpr( curr_lineno(), Expr.kind.SUB, (Expr) ae, (Expr) me);:}
+               | mul_expr:me {: 
+                  RESULT = me;
+                 :}
+               ;
+
+   mul_expr ::=  mul_expr:me STAR unary_expr:ue {: RESULT = new mulExpr( curr_lineno(), Expr.kind.STAR, (Expr) me, (Expr) ue);:}
+               | mul_expr:me DIV  unary_expr:ue {: RESULT = new mulExpr( curr_lineno(), Expr.kind.DIV,  (Expr) me, (Expr) ue);:}
+               | unary_expr:ue {: 
+                  RESULT = ue;
+                 :}
+               ;
+
+  unary_expr ::=   NOT unary_expr:ue {: RESULT = new unaryExpr( curr_lineno(), Expr.kind.NOT, (Expr) ue);:}
+                 | SUB unary_expr:ue {: RESULT = new unaryExpr( curr_lineno(), Expr.kind.UNSUB, (Expr) ue);:}
+                 | atomic_expr:ae {: 
+                   RESULT = ae;
+                   :}
+                 ;
+
+  atomic_expr ::= LPAREN expr:e RPAREN {: RESULT = e; :}
+                 | name_expr:ne        {: RESULT = ne; :}
+                 | constant_expr:ce    {: RESULT = ce; :}
+                 | name_expr:ne LPAREN opt_arg_list:al RPAREN  
+		{: RESULT = new callExpr(curr_lineno(), (idExpr)ne,(LinkedList<Expr>)al);    :} 
+                 ;
+
+  name_expr ::= name:n {: RESULT = n; :}
+                ;
+
+  name ::= IDENTIFIER:id {: RESULT = new idExpr( curr_lineno(), (String) id); :}
+           ;
+
+  constant_expr ::= CHAR_LITERAL:c {: 
+                    RESULT = new constantExpr(constantExpr.kind.CHAR_LITERAL, (Character) ((String)c).charAt(0));
+                   :}
+                   | INT_LITERAL:i {: 
+                    RESULT = new constantExpr(constantExpr.kind.INT_LITERAL, (Integer) (Integer.parseInt((String)i)));
+                   :}
+                   | STRING_LITERAL:s {: 
+                    RESULT = new constantExpr(constantExpr.kind.STRING_LITERAL, (String)s);
+                   :}
+                   | TRUE {: 
+                    RESULT = new constantExpr(constantExpr.kind.TRUE);
+                   :}
+                   | FALSE {: 
+                    RESULT = new constantExpr(constantExpr.kind.FALSE);
+                   :}
+		    ;
+
+
+   type_spec ::= BOOLEAN {:  RESULT = new Type(Type.kind.BOOLEAN); :}
+          | CHAR    {:  RESULT = new Type(Type.kind.CHAR);    :}
+          | INT     {:  RESULT = new Type(Type.kind.INT);     :}
+          | STRING  {:  RESULT = new Type(Type.kind.STRING);  :}
+          | VOID    {:  RESULT = new Type(Type.kind.VOID);    :}
+          ;
+
+   opt_param_list ::= {: RESULT = new LinkedList<Param>(); :} 
+      | param_list:pl {: RESULT = pl; :} 
+      ;  
+
+   param_list ::= param:p {: LinkedList<Param> pl = new LinkedList<Param>(); 
+			     ((LinkedList<Param>) pl).addLast((Param) p); RESULT = pl; :}
+	  | param_list:pl COMMA param:p {: ((LinkedList<Param>) pl).addLast((Param) p); RESULT = pl; :}
+	  ;
+
+   param ::= type_spec:t name_expr:ne 
+	{: RESULT = new Param((idExpr)ne, (Type) t); :}
+	| error param:p {: report_error(errors++ +": detected at line "+curr_lineno()+": parameters error",p);  :}
+	;
+
+
+   opt_arg_list ::= {: RESULT = new LinkedList<Expr>(); :} 
+      | arg_list:al {: RESULT = al; :} 
+      ;  
+
+   arg_list ::= expr:e {: LinkedList<Expr> al = new LinkedList<Expr>();
+			   ((LinkedList<Expr>) al).addLast((Expr) e); RESULT = al; :}
+	  | arg_list:al COMMA expr:e 
+	  {: ((LinkedList<Expr>) al).addLast((Expr) e); RESULT = al; :}
+	  | error expr:e {: report_error(errors++ +": detected at line "+curr_lineno()+": arguments error",e);  :}
+	  ; 
